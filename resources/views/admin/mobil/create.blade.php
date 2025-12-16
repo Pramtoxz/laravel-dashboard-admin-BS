@@ -3,21 +3,15 @@
 @section('title', 'Tambah Mobil')
 
 @section('content')
-<div class="page-header d-print-none">
-    <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">Tambah Mobil</h2>
-                <div class="text-muted mt-1">Tambahkan mobil baru ke sistem</div>
-            </div>
-        </div>
+<div class="row mb-3">
+    <div class="col">
+        <h2 class="page-title">Tambah Mobil</h2>
+        <div class="text-muted mt-1">Tambahkan mobil baru ke sistem</div>
     </div>
 </div>
 
-<div class="page-body">
-    <div class="container-xl">
-        <div class="row">
-            <div class="col-12">
+<div class="row">
+    <div class="col-12">
                 <form action="{{ route('mobil.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
@@ -129,6 +123,4 @@
                 </form>
             </div>
         </div>
-    </div>
-</div>
 @endsection

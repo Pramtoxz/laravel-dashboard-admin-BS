@@ -3,21 +3,15 @@
 @section('title', 'Verifikasi Customer')
 
 @section('content')
-<div class="page-header d-print-none">
-    <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">Data Customers</h2>
-                <div class="text-muted mt-1">Kelola dan verifikasi data customers</div>
-            </div>
-        </div>
+<div class="row mb-3">
+    <div class="col">
+        <h2 class="page-title">Data Customers</h2>
+        <div class="text-muted mt-1">Kelola dan verifikasi data customers</div>
     </div>
 </div>
 
-<div class="page-body">
-    <div class="container-xl">
-        <div class="row">
-            <div class="col-12">
+<div class="row">
+    <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Daftar Customer</h3>
@@ -129,6 +123,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 @endsection

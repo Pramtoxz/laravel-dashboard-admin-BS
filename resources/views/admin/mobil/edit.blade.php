@@ -3,21 +3,15 @@
 @section('title', 'Edit Mobil')
 
 @section('content')
-<div class="page-header d-print-none">
-    <div class="container-xl">
-        <div class="row g-2 align-items-center">
-            <div class="col">
-                <h2 class="page-title">Edit Mobil</h2>
-                <div class="text-muted mt-1">Update informasi mobil</div>
-            </div>
-        </div>
+<div class="row mb-3">
+    <div class="col">
+        <h2 class="page-title">Edit Mobil</h2>
+        <div class="text-muted mt-1">Update informasi mobil</div>
     </div>
 </div>
 
-<div class="page-body">
-    <div class="container-xl">
-        <div class="row">
-            <div class="col-12">
+<div class="row">
+    <div class="col-12">
                 <form action="{{ route('mobil.update', $mobil->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -135,6 +129,4 @@
                 </form>
             </div>
         </div>
-    </div>
-</div>
 @endsection
