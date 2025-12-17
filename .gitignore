@@ -19,6 +19,7 @@
 /public/hot
 /public/assets/images/ktp/*
 /public/assets/images/selfie/*
+/public/assets/images/mobil/*
 /public/storage
 /storage/*.key
 /storage/pail
