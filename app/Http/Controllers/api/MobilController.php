@@ -39,10 +39,14 @@ class MobilController extends Controller
 
         $mobils = $query->orderBy('created_at', 'desc')->paginate(20);
 
+        $data = $mobils->map(function ($mobil) {
+            return $this->formatMobilData($mobil);
+        });
+
         return response()->json([
             'success' => true,
             'message' => 'Data mobil berhasil diambil',
-            'data' => $mobils->items(),
+            'data' => $data,
             'pagination' => [
                 'current_page' => $mobils->currentPage(),
                 'last_page' => $mobils->lastPage(),
@@ -66,7 +70,46 @@ class MobilController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Detail mobil berhasil diambil',
-            'data' => $mobil,
+            'data' => $this->formatMobilData($mobil),
         ]);
+    }
+
+    public function rekomendasi()
+    {
+        $mobils = Mobil::where('status', 'tersedia')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        $data = $mobils->map(function ($mobil) {
+            return $this->formatMobilData($mobil);
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data rekomendasi mobil berhasil diambil',
+            'data' => $data,
+        ]);
+    }
+
+    private function formatMobilData($mobil)
+    {
+        return [
+            'id' => $mobil->id,
+            'nama_mobil' => $mobil->nama_mobil,
+            'merk' => $mobil->merk,
+            'plat_nomor' => $mobil->plat_nomor,
+            'tahun' => $mobil->tahun,
+            'warna' => $mobil->warna,
+            'jenis_transmisi' => $mobil->jenis_transmisi,
+            'kapasitas_penumpang' => $mobil->kapasitas_penumpang,
+            'harga_sewa_per_hari' => (float) $mobil->harga_sewa_per_hari,
+            'harga_formatted' => 'Rp.' . number_format($mobil->harga_sewa_per_hari, 0, ',', '.') . '/Day',
+            'deskripsi' => $mobil->deskripsi,
+            'foto_mobil' => $mobil->foto_mobil ? url('assets/images/mobil/' . $mobil->foto_mobil) : null,
+            'status' => $mobil->status,
+            'created_at' => $mobil->created_at,
+            'updated_at' => $mobil->updated_at,
+        ];
     }
 }

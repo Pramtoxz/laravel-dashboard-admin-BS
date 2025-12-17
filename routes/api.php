@@ -21,5 +21,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Mobil endpoints
     Route::get('/mobil', [MobilController::class, 'index']);
+    Route::get('/mobil/rekomendasi', [MobilController::class, 'rekomendasi']);
     Route::get('/mobil/{id}', [MobilController::class, 'show']);
 });

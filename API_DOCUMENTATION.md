@@ -174,20 +174,47 @@ Authorization: Bearer {token}
   }
 }
 ```
-GET /api/mobil - Menampilkan semua mobil dengan filter:
+## Mobil Endpoints
 
-?merk=toyota - Filter berdasarkan merk
-?transmisi=manual atau ?transmisi=automatic - Filter berdasarkan transmisi
-?status=tersedia atau ?status=disewa atau ?status=maintenance - Filter berdasarkan status
-?search=avanza - Pencarian nama mobil, merk, atau plat nomor
-Bisa kombinasi: ?merk=toyota&transmisi=manual&status=tersedia
-GET /api/mobil/{id} - Detail mobil berdasarkan ID
+### 1. Get All Mobil
+**Endpoint:** `GET /mobil`
 
+**Headers:**
+```
+Authorization: Bearer {token}
+```
 
+**Query Parameters:**
+- `merk` - Filter berdasarkan merk (contoh: `?merk=toyota`)
+- `transmisi` - Filter berdasarkan transmisi (`manual` atau `automatic`)
+- `status` - Filter berdasarkan status (`tersedia`, `disewa`, atau `maintenance`)
+- `search` - Pencarian nama mobil, merk, atau plat nomor
+- Bisa kombinasi: `?merk=toyota&transmisi=manual&status=tersedia`
+
+**Response:**
+```json
 {
   "success": true,
   "message": "Data mobil berhasil diambil",
-  "data": [...],
+  "data": [
+    {
+      "id": 1,
+      "nama_mobil": "Lamborghini Urus",
+      "merk": "Lamborghini",
+      "plat_nomor": "BA 1234 AS",
+      "tahun": 2022,
+      "warna": "Yellow",
+      "jenis_transmisi": "automatic",
+      "kapasitas_penumpang": 4,
+      "harga_sewa_per_hari": 500000,
+      "harga_formatted": "Rp.500.000/Day",
+      "deskripsi": "SUV Car, Off Road",
+      "foto_mobil": "http://localhost:8000/assets/images/mobil/1765955237_mobil_lamborghini.png",
+      "status": "tersedia",
+      "created_at": "2025-12-17T14:07:17.000000Z",
+      "updated_at": "2025-12-17T14:07:17.000000Z"
+    }
+  ],
   "pagination": {
     "current_page": 1,
     "last_page": 1,
@@ -195,3 +222,64 @@ GET /api/mobil/{id} - Detail mobil berdasarkan ID
     "total": 1
   }
 }
+```
+
+### 2. Get Mobil Detail
+**Endpoint:** `GET /mobil/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Detail mobil berhasil diambil",
+  "data": {
+    "id": 1,
+    "nama_mobil": "Lamborghini Urus",
+    "merk": "Lamborghini",
+    "plat_nomor": "BA 1234 AS",
+    "tahun": 2022,
+    "warna": "Yellow",
+    "jenis_transmisi": "automatic",
+    "kapasitas_penumpang": 4,
+    "harga_sewa_per_hari": 500000,
+    "harga_formatted": "Rp.500.000/Day",
+    "deskripsi": "SUV Car, Off Road",
+    "foto_mobil": "http://localhost:8000/assets/images/mobil/1765955237_mobil_lamborghini.png",
+    "status": "tersedia",
+    "created_at": "2025-12-17T14:07:17.000000Z",
+    "updated_at": "2025-12-17T14:07:17.000000Z"
+  }
+}
+```
+
+### 3. Get Rekomendasi Mobil
+**Endpoint:** `GET /mobil/rekomendasi`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Data rekomendasi mobil berhasil diambil",
+  "data": [
+    {
+      "id": 1,
+      "nama_mobil": "Lamborghini Urus",
+      "merk": "Lamborghini",
+      "harga_sewa_per_hari": 500000,
+      "harga_formatted": "Rp.500.000/Day",
+      "foto_mobil": "http://localhost:8000/assets/images/mobil/1765955237_mobil_lamborghini.png",
+      "status": "tersedia"
+    }
+  ]
+}
+```
