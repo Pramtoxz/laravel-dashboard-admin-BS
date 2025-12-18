@@ -345,7 +345,8 @@
         // Generic confirm function with SweetAlert2
         function confirmAction(event, title, text, confirmText = 'Ya', cancelText = 'Batal') {
             event.preventDefault();
-            const form = event.target.closest('form');
+            const button = event.target.closest('button');
+            const form = button.closest('form');
             
             Swal.fire({
                 title: title,
@@ -358,6 +359,14 @@
                 cancelButtonText: cancelText
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Jika button punya name dan value, tambahkan hidden input
+                    if (button.name && button.value) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = button.name;
+                        hiddenInput.value = button.value;
+                        form.appendChild(hiddenInput);
+                    }
                     form.submit();
                 }
             });
