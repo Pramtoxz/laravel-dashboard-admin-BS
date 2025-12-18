@@ -277,3 +277,152 @@ Authorization: Bearer {token}
   ]
 }
 ```
+
+## Booking Endpoints
+
+### 1. Create Booking
+**Endpoint:** `POST /booking`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Request Body:**
+```json
+{
+  "mobil_id": 1,
+  "tanggal_mulai": "2025-12-20",
+  "tanggal_selesai": "2025-12-22",
+  "catatan_customer": "Mohon mobil dalam kondisi bersih"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Booking berhasil dibuat, silakan upload bukti pembayaran",
+  "data": {
+    "id": 1,
+    "kode_booking": "BK202512180001",
+    "mobil": {
+      "id": 1,
+      "nama_mobil": "Lamborghini Urus",
+      "merk": "Lamborghini",
+      "plat_nomor": "BA 1234 AS",
+      "foto_mobil": "http://localhost:8000/assets/images/mobil/..."
+    },
+    "tanggal_mulai": "2025-12-20",
+    "tanggal_selesai": "2025-12-22",
+    "durasi_hari": 3,
+    "harga_per_hari": 500000,
+    "total_harga": 1500000,
+    "total_harga_formatted": "Rp.1.500.000",
+    "bukti_bayar": null,
+    "status_pembayaran": "pending",
+    "status_booking": "pending",
+    "catatan_customer": "Mohon mobil dalam kondisi bersih",
+    "catatan_admin": null
+  }
+}
+```
+
+### 2. Upload Bukti Pembayaran
+**Endpoint:** `POST /booking/{id}/upload-bukti`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Request Body (multipart/form-data):**
+```
+bukti_bayar: [file]
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Bukti pembayaran berhasil diupload, menunggu verifikasi admin",
+  "data": {
+    "id": 1,
+    "kode_booking": "BK202512180001",
+    "bukti_bayar": "http://localhost:8000/assets/images/bukti_bayar/...",
+    "status_pembayaran": "pending",
+    "status_booking": "pending"
+  }
+}
+```
+
+### 3. Get My Bookings
+**Endpoint:** `GET /booking`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Data booking berhasil diambil",
+  "data": [
+    {
+      "id": 1,
+      "kode_booking": "BK202512180001",
+      "mobil": {...},
+      "tanggal_mulai": "2025-12-20",
+      "tanggal_selesai": "2025-12-22",
+      "durasi_hari": 3,
+      "total_harga": 1500000,
+      "total_harga_formatted": "Rp.1.500.000",
+      "status_pembayaran": "verified",
+      "status_booking": "confirmed"
+    }
+  ]
+}
+```
+
+### 4. Get Booking Detail
+**Endpoint:** `GET /booking/{id}`
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Detail booking berhasil diambil",
+  "data": {
+    "id": 1,
+    "kode_booking": "BK202512180001",
+    "mobil": {...},
+    "tanggal_mulai": "2025-12-20",
+    "tanggal_selesai": "2025-12-22",
+    "durasi_hari": 3,
+    "total_harga": 1500000,
+    "status_pembayaran": "verified",
+    "status_booking": "confirmed"
+  }
+}
+```
+
+## Booking Status Flow
+
+### Status Pembayaran:
+- `pending` - Menunggu upload bukti pembayaran
+- `verified` - Pembayaran sudah diverifikasi admin
+- `rejected` - Pembayaran ditolak admin
+
+### Status Booking:
+- `pending` - Menunggu verifikasi pembayaran
+- `confirmed` - Pembayaran terverifikasi, menunggu hari H
+- `checked_in` - Customer sudah mengambil mobil
+- `completed` - Rental selesai, mobil sudah dikembalikan
+- `cancelled` - Booking dibatalkan

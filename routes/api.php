@@ -23,4 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/mobil', [MobilController::class, 'index']);
     Route::get('/mobil/rekomendasi', [MobilController::class, 'rekomendasi']);
     Route::get('/mobil/{id}', [MobilController::class, 'show']);
+    
+    // Booking endpoints
+    Route::post('/booking', [\App\Http\Controllers\api\BookingController::class, 'store']);
+    Route::post('/booking/{id}/upload-bukti', [\App\Http\Controllers\api\BookingController::class, 'uploadBuktiPembayaran']);
+    Route::get('/booking', [\App\Http\Controllers\api\BookingController::class, 'myBookings']);
+    Route::get('/booking/{id}', [\App\Http\Controllers\api\BookingController::class, 'show']);
 });

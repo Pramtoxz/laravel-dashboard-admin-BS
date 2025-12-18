@@ -20,6 +20,7 @@
 /public/assets/images/ktp/*
 /public/assets/images/selfie/*
 /public/assets/images/mobil/*
+/public/assets/images/bukti_bayar/*
 /public/storage
 /storage/*.key
 /storage/pail
