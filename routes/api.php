@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\MobilController;
-
+use App\Http\Controllers\api\BookingController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/request-otp', [AuthController::class, 'requestOTP']);
@@ -25,8 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/mobil/{id}', [MobilController::class, 'show']);
     
     // Booking endpoints
-    Route::post('/booking', [\App\Http\Controllers\api\BookingController::class, 'store']);
-    Route::post('/booking/{id}/upload-bukti', [\App\Http\Controllers\api\BookingController::class, 'uploadBuktiPembayaran']);
-    Route::get('/booking', [\App\Http\Controllers\api\BookingController::class, 'myBookings']);
-    Route::get('/booking/{id}', [\App\Http\Controllers\api\BookingController::class, 'show']);
+    Route::post('/booking', [BookingController::class, 'store']);
+    Route::post('/booking/{id}/upload-bukti', [BookingController::class, 'uploadBuktiPembayaran']);
+    Route::get('/booking', [BookingController::class, 'myBookings']);
+    Route::get('/booking/{id}', [BookingController::class, 'show']);
 });
