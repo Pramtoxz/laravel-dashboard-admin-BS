@@ -75,9 +75,9 @@
                                         @if($customer->status_verifikasi === 'pending')
                                             <span class="badge bg-warning text-white">Pending</span>
                                         @elseif($customer->status_verifikasi === 'verified')
-                                            <span class="badge bg-success">Verified</span>
+                                            <span class="badge bg-success text-white">Verified</span>
                                         @else
-                                            <span class="badge bg-danger">Rejected</span>
+                                            <span class="badge bg-danger text-white">Rejected</span>
                                         @endif
                                     </td>
                                     <td class="text-muted">{{ $customer->created_at->format('d/m/Y H:i') }}</td>

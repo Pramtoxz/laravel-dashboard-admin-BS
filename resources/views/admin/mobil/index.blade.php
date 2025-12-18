@@ -89,11 +89,11 @@
                             <td>Rp {{ number_format($mobil->harga_sewa_per_hari, 0, ',', '.') }}</td>
                             <td>
                                 @if($mobil->status === 'tersedia')
-                                    <span class="badge bg-success">Tersedia</span>
+                                    <span class="badge bg-success text-white">Tersedia</span>
                                 @elseif($mobil->status === 'disewa')
-                                    <span class="badge bg-warning">Disewa</span>
+                                    <span class="badge bg-warning text-white">Disewa</span>
                                 @else
-                                    <span class="badge bg-danger">Maintenance</span>
+                                    <span class="badge bg-danger text-white">Maintenance</span>
                                 @endif
                             </td>
                             <td>
