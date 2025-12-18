@@ -229,11 +229,11 @@
                         <textarea name="catatan_admin" class="form-control" rows="3" placeholder="Opsional"></textarea>
                     </div>
                     <div class="d-grid gap-2">
-                        <button type="submit" name="status" value="verified" class="btn btn-success" onclick="return confirm('Verifikasi pembayaran ini?')">
+                        <button type="submit" name="status" value="verified" class="btn btn-success" onclick="confirmAction(event, 'Verifikasi Pembayaran?', 'Booking akan dikonfirmasi dan customer bisa mengambil mobil', 'Ya, Verifikasi!')">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
                             Verifikasi
                         </button>
-                        <button type="submit" name="status" value="rejected" class="btn btn-danger" onclick="return confirm('Tolak pembayaran ini?')">
+                        <button type="submit" name="status" value="rejected" class="btn btn-danger" onclick="confirmAction(event, 'Tolak Pembayaran?', 'Booking akan dibatalkan', 'Ya, Tolak!')">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                             Tolak
                         </button>
@@ -252,7 +252,7 @@
                 <p class="text-muted">Customer sudah bisa mengambil mobil</p>
                 <form action="{{ route('booking.check-in', $booking->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-primary w-100" onclick="return confirm('Konfirmasi check-in customer?')">
+                    <button type="submit" class="btn btn-primary w-100" onclick="confirmAction(event, 'Check-In Customer?', 'Customer sudah mengambil mobil?', 'Ya, Check-In!')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg>
                         Check-In
                     </button>
@@ -270,7 +270,7 @@
                 <p class="text-muted">Mobil sudah dikembalikan customer</p>
                 <form action="{{ route('booking.complete', $booking->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn btn-success w-100" onclick="return confirm('Selesaikan rental ini?')">
+                    <button type="submit" class="btn btn-success w-100" onclick="confirmAction(event, 'Selesaikan Rental?', 'Mobil sudah dikembalikan dan akan tersedia kembali', 'Ya, Selesai!')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" /></svg>
                         Selesai
                     </button>

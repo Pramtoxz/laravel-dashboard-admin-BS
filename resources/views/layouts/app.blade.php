@@ -341,6 +341,27 @@
                 }
             })
         }
+
+        // Generic confirm function with SweetAlert2
+        function confirmAction(event, title, text, confirmText = 'Ya', cancelText = 'Batal') {
+            event.preventDefault();
+            const form = event.target.closest('form');
+            
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmText,
+                cancelButtonText: cancelText
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
     </script>
   <script>
     // Beautiful 3-color gradients with text color info
