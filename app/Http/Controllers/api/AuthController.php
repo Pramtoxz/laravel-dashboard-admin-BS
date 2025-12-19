@@ -190,7 +190,7 @@ class AuthController extends Controller
         }
 
         try {
-            $updateData = [];
+            $updateData['status_verifikasi']='pending';
 
             if ($request->has('name')) {
                 $updateData['name'] = $request->name;
