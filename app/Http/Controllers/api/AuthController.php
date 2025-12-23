@@ -264,4 +264,27 @@ class AuthController extends Controller
             'message' => 'Logout berhasil'
         ]);
     }
+
+    public function updateFCMToken(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'fcm_token' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = $request->user();
+        $user->update(['fcm_token' => $request->fcm_token]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'FCM token berhasil diupdate',
+        ]);
+    }
 }

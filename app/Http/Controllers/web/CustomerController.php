@@ -4,10 +4,17 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FCMService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     public function index(Request $request)
     {
         $query = User::where('role', 'customer');
@@ -53,9 +60,16 @@ class CustomerController extends Controller
             'catatan_verifikasi' => $request->catatan,
         ]);
 
+        // Kirim notifikasi FCM ke customer
+        $this->fcmService->sendVerificationNotification(
+            $customer,
+            $request->status,
+            $request->catatan
+        );
+
         $message = $request->status === 'verified' 
-            ? 'Customer berhasil diverifikasi' 
-            : 'Customer ditolak';
+            ? 'Customer berhasil diverifikasi dan notifikasi telah dikirim' 
+            : 'Customer ditolak dan notifikasi telah dikirim';
 
         return redirect()->route('customer.index')
             ->with('success', $message);

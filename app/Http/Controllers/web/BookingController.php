@@ -5,10 +5,17 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Mobil;
+use App\Services\FCMService;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
+    protected $fcmService;
+
+    public function __construct(FCMService $fcmService)
+    {
+        $this->fcmService = $fcmService;
+    }
     public function index(Request $request)
     {
         $query = Booking::with(['user', 'mobil']);
@@ -52,7 +59,7 @@ class BookingController extends Controller
             'catatan_admin' => 'nullable|string',
         ]);
 
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::with('user')->findOrFail($id);
 
         if ($request->status === 'verified') {
             $booking->update([
@@ -67,7 +74,14 @@ class BookingController extends Controller
                 $booking->mobil->update(['status' => 'disewa']);
             }
 
-            $message = 'Pembayaran berhasil diverifikasi';
+            // Kirim notifikasi FCM
+            $this->fcmService->sendPaymentVerificationNotification(
+                $booking,
+                'verified',
+                $request->catatan_admin
+            );
+
+            $message = 'Pembayaran berhasil diverifikasi dan notifikasi telah dikirim';
         } else {
             $booking->update([
                 'status_pembayaran' => 'rejected',
@@ -75,7 +89,14 @@ class BookingController extends Controller
                 'catatan_admin' => $request->catatan_admin,
             ]);
 
-            $message = 'Pembayaran ditolak';
+            // Kirim notifikasi FCM
+            $this->fcmService->sendPaymentVerificationNotification(
+                $booking,
+                'rejected',
+                $request->catatan_admin
+            );
+
+            $message = 'Pembayaran ditolak dan notifikasi telah dikirim';
         }
 
         return redirect()->route('booking.show', $id)->with('success', $message);
@@ -83,7 +104,7 @@ class BookingController extends Controller
 
     public function checkIn($id)
     {
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::with('user')->findOrFail($id);
 
         if ($booking->status_booking !== 'confirmed') {
             return redirect()->back()->with('error', 'Booking belum dikonfirmasi');
@@ -96,12 +117,19 @@ class BookingController extends Controller
 
         $booking->mobil->update(['status' => 'disewa']);
 
-        return redirect()->route('booking.show', $id)->with('success', 'Customer berhasil check-in');
+        // Kirim notifikasi FCM
+        $this->fcmService->sendBookingStatusNotification(
+            $booking,
+            'checked_in',
+            'Mobil telah diambil. Selamat berkendara!'
+        );
+
+        return redirect()->route('booking.show', $id)->with('success', 'Customer berhasil check-in dan notifikasi telah dikirim');
     }
 
     public function complete($id)
     {
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::with('user')->findOrFail($id);
 
         if ($booking->status_booking !== 'checked_in') {
             return redirect()->back()->with('error', 'Booking belum check-in');
@@ -114,6 +142,13 @@ class BookingController extends Controller
 
         $booking->mobil->update(['status' => 'tersedia']);
 
-        return redirect()->route('booking.show', $id)->with('success', 'Booking selesai, mobil tersedia kembali');
+        // Kirim notifikasi FCM
+        $this->fcmService->sendBookingStatusNotification(
+            $booking,
+            'completed',
+            "Terima kasih telah menggunakan layanan kami. Booking {$booking->kode_booking} selesai."
+        );
+
+        return redirect()->route('booking.show', $id)->with('success', 'Booking selesai, mobil tersedia kembali, dan notifikasi telah dikirim');
     }
 }

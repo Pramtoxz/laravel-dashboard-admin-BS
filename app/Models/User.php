@@ -30,6 +30,7 @@ class User extends Authenticatable
         'role',
         'status_verifikasi',
         'catatan_verifikasi',
+        'fcm_token',
     ];
 
     /**
