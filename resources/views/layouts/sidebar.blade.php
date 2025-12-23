@@ -51,6 +51,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('broadcast.index') }}">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <i class="ti ti-speakerphone fs-2"></i>
+                        </span>
+                        <span class="nav-link-title">
+                            Broadcast
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-danger" href="#" onclick="event.preventDefault(); confirmLogout();">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <i class="ti ti-logout fs-2"></i>
